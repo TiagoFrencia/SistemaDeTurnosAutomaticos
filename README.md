@@ -10,6 +10,24 @@ El producto combina reserva pública, pagos con Mercado Pago, panel admin, agend
 - Reserva pública piloto: [https://turnos-estetica.vercel.app/achul-nails](https://turnos-estetica.vercel.app/achul-nails)
 - Admin: [https://turnos-estetica.vercel.app/admin/login](https://turnos-estetica.vercel.app/admin/login)
 
+## Capturas
+
+### Reserva pública
+
+![Reserva pública de Achul_Nails](docs/assets/screenshots/public-booking-desktop.png)
+
+### Calendario mobile
+
+![Calendario de turnos en mobile](docs/assets/screenshots/public-calendar-mobile.png)
+
+### Panel admin
+
+![Dashboard operativo del panel admin](docs/assets/screenshots/admin-dashboard-desktop.png)
+
+### Operación WhatsApp
+
+![Panel admin de WhatsApp con datos sensibles difuminados](docs/assets/screenshots/admin-whatsapp-redacted.png)
+
 ## Funcionalidades
 
 - Reserva pública con calendario mensual, selección de día y horarios disponibles.

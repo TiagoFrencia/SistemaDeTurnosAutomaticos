@@ -15,6 +15,5 @@ output/
 test-results/
 playwright-report/
 
-.agents/skills/speckit-git-*/
-
-.vercel
+.agents/
+.specify/
