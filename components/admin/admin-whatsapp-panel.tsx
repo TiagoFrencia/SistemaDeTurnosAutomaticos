@@ -48,7 +48,7 @@ export function AdminWhatsAppPanel({ conversations }: Props) {
         <div className="admin-list-item">
           <div>
             <h2>No hay conversaciones de WhatsApp</h2>
-            <p>Cuando una clienta escriba al bot, su chat va a aparecer aca.</p>
+            <p>Cuando una clienta escriba al bot, su chat va a aparecer acá.</p>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@ export function AdminWhatsAppPanel({ conversations }: Props) {
   }
 
   return (
-    <div className="admin-list">
+    <div className="admin-list admin-whatsapp-list">
       {error ? (
         <div className="admin-whatsapp-notice">
           <p className="admin-error">{error}</p>
@@ -76,20 +76,20 @@ export function AdminWhatsAppPanel({ conversations }: Props) {
                   <span className="admin-whatsapp-meta">Actualizado {formatDateTime(conversation.updatedAt)}</span>
                 </p>
                 <p>
-                  Ultimo mensaje: <strong>{conversation.lastMessage ?? "Sin mensaje"}</strong>
+                  Último mensaje: <strong>{conversation.lastMessage ?? "Sin mensaje"}</strong>
                 </p>
                 <p>
                   Vence: {formatDateTime(conversation.expiresAt)} · Mensajes procesados:{" "}
                   <strong>{conversation.processedMessagesCount}</strong>
                 </p>
                 <p>
-                  Accion sugerida: <strong>{conversation.suggestedAction}</strong>
+                  Acción sugerida: <strong>{conversation.suggestedAction}</strong>
                 </p>
                 {conversation.isExpired ? (
-                  <p className="admin-error">Conversacion vencida: conviene reiniciar o pedir que escriba hola.</p>
+                  <p className="admin-error">Conversación vencida: conviene reiniciar o pedir que escriba hola.</p>
                 ) : null}
                 {successPhone === conversation.phone ? (
-                  <p className="admin-success">Chat reiniciado. La proxima respuesta vuelve al inicio.</p>
+                  <p className="admin-success">Chat reiniciado. La próxima respuesta vuelve al inicio.</p>
                 ) : null}
               </div>
               <div className="admin-row-actions">
@@ -101,7 +101,7 @@ export function AdminWhatsAppPanel({ conversations }: Props) {
                   disabled={resettingPhone === conversation.phone}
                   onClick={() => resetConversation(conversation.phone)}
                 >
-                  {resettingPhone === conversation.phone ? "Reiniciando..." : "Reiniciar chat"}
+                  {resettingPhone === conversation.phone ? "Reiniciando..." : "Reiniciar"}
                 </button>
               </div>
             </div>
@@ -119,7 +119,7 @@ function ConversationContextDetail({ conversation }: { conversation: AdminWhatsA
     () => [
       ["Servicios elegidos", formatList(conversation.displayContext.serviceNames)],
       ["Profesional", conversation.displayContext.professionalName],
-      ["Dia seleccionado", conversation.displayContext.selectedDayLabel],
+      ["Día seleccionado", conversation.displayContext.selectedDayLabel],
       ["Horario", conversation.displayContext.selectedTimeLabel],
       ["Nombre", conversation.displayContext.fullName],
       ["Email", conversation.displayContext.email],

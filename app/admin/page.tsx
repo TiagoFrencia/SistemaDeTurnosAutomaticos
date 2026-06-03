@@ -13,8 +13,9 @@ export default async function AdminIndexPage() {
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Argentina/Buenos_Aires" }).format(now);
   const dayStart = new Date(`${today}T00:00:00-03:00`).toISOString();
   const dayEnd = new Date(`${today}T23:59:59.999-03:00`).toISOString();
+  const monthStart = new Date(`${today.slice(0, 8)}01T00:00:00-03:00`).toISOString();
 
-  const [todayResult, pendingResult, chatsResult, nextAppointmentResult] = await Promise.all([
+  const [todayResult, pendingResult, chatsResult, monthResult, nextAppointmentResult] = await Promise.all([
     supabase
       .from("appointments")
       .select("id", { count: "exact", head: true })
@@ -31,6 +32,12 @@ export default async function AdminIndexPage() {
       .select("id", { count: "exact", head: true })
       .eq("business_id", access.businessId)
       .not("state", "eq", "completed"),
+    supabase
+      .from("appointments")
+      .select("id", { count: "exact", head: true })
+      .eq("business_id", access.businessId)
+      .gte("start_at", monthStart)
+      .in("status", ["confirmed", "attended"]),
     supabase
       .from("appointments")
       .select("id,start_at,customers(full_name),professionals(name),services(name)")
@@ -58,7 +65,7 @@ export default async function AdminIndexPage() {
           { href: "/admin/turnos", label: "Turnos de hoy", value: todayResult.count ?? 0, helper: "Agenda del día" },
           {
             href: "/admin/turnos?status=pending_payment",
-            label: "Pendientes de pago",
+            label: "Pendientes pago",
             value: pendingResult.count ?? 0,
             helper: "Se liberan si no pagan"
           },
@@ -66,10 +73,17 @@ export default async function AdminIndexPage() {
             href: "/admin/whatsapp",
             label: "Chats a revisar",
             value: chatsResult.count ?? 0,
-            helper: "Clientas que pueden necesitar ayuda"
+            helper: "Clientas con ayuda"
+          },
+          {
+            href: "/admin/turnos",
+            label: "Total del mes",
+            value: monthResult.count ?? 0,
+            helper: "Turnos confirmados"
           }
         ]}
         nextAppointment={normalizeNextAppointment(nextAppointmentResult.data)}
+        todayLabel={formatTodayLabel(now)}
       />
     </section>
   );
@@ -95,6 +109,17 @@ function normalizeNextAppointment(data: unknown) {
     serviceName: typeof service?.name === "string" ? service.name : "Servicio",
     professionalName: typeof professional?.name === "string" ? professional.name : "Profesional"
   };
+}
+
+function formatTodayLabel(value: Date) {
+  const formatted = new Intl.DateTimeFormat("es-AR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: "America/Argentina/Buenos_Aires"
+  }).format(value);
+
+  return `Hoy · ${formatted}`;
 }
 
 function relationObject(value: unknown): unknown {

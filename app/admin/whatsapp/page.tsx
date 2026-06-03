@@ -45,15 +45,28 @@ export default async function Page({ searchParams }: Props) {
       <div className="admin-panel-heading">
         <div>
           <p className="admin-kicker">WhatsApp</p>
-          <h1 id="whatsapp-title">Operacion WhatsApp</h1>
-          <p className="muted">Revisa chats recientes, detecta pasos trabados y reinicia conversaciones sin tocar turnos.</p>
+          <h1 id="whatsapp-title">WhatsApp</h1>
+          <p className="muted">Operación de chats</p>
         </div>
+        <strong className="admin-mobile-page-count">{conversations.length} chats</strong>
       </div>
 
       <form className="admin-form" method="get">
+        <div className="admin-mobile-chip-row" aria-label="Filtros rápidos de WhatsApp">
+          {[
+            { href: "/admin/whatsapp", label: "Todos", active: !state },
+            { href: "/admin/whatsapp?state=completed", label: "Completados", active: state === "completed" },
+            { href: "/admin/whatsapp?state=selecting_services", label: "En proceso", active: state === "selecting_services" },
+            { href: "/admin/whatsapp?state=confirming_booking", label: "Trabados", active: state === "confirming_booking" }
+          ].map((chip) => (
+            <a className={`admin-filter-chip${chip.active ? " active" : ""}`} href={chip.href} key={chip.label}>
+              {chip.label}
+            </a>
+          ))}
+        </div>
         <div className="admin-form-grid">
           <label>
-            Telefono
+            Teléfono
             <input name="phone" defaultValue={phone ?? ""} placeholder="+549..." />
           </label>
           <label>

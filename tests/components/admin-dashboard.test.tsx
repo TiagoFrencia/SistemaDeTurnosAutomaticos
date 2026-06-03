@@ -39,6 +39,6 @@ describe("AdminDashboard", () => {
     render(<AdminDashboard metrics={metrics} nextAppointment={null} />);
 
     expect(screen.getByText("No hay más turnos hoy")).toBeInTheDocument();
-    expect(screen.getByText(/La agenda de hoy queda tranquila/)).toBeInTheDocument();
+    expect(screen.getByText(/La agenda queda tranquila/)).toBeInTheDocument();
   });
 });

@@ -138,7 +138,7 @@ export function ManualAppointmentForm({
             <input name="fullName" required />
           </label>
           <label>
-            Telefono
+            Teléfono
             <input name="phone" required />
           </label>
           <label>
@@ -148,14 +148,14 @@ export function ManualAppointmentForm({
         </div>
 
         <fieldset className="admin-form-fieldset">
-          <legend>Sena</legend>
+          <legend>Seña</legend>
           <label>
             <input name="depositMode" type="radio" value="none" defaultChecked />
-            Sin sena
+            Sin seña
           </label>
           <label>
             <input name="depositMode" type="radio" value="cash" />
-            Sena pagada en efectivo
+            Seña pagada en efectivo
           </label>
         </fieldset>
 

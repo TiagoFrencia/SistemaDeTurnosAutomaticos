@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { CalendarDays } from "lucide-react";
 import { AppointmentDetail } from "@/components/admin/appointment-detail";
 
 type Appointment = {
@@ -28,7 +29,7 @@ export default function AdminTurnosList({ appointments }: { appointments: Appoin
   }
 
   return (
-    <div className="admin-list">
+    <div className="admin-list admin-appointments-list">
       {appointments.map((appointment) => {
         const customer = firstRelation(appointment.customers);
         const professional = firstRelation(appointment.professionals);
@@ -37,30 +38,36 @@ export default function AdminTurnosList({ appointments }: { appointments: Appoin
         const isExpanded = expandedId === appointment.id;
 
         return (
-          <article className="admin-list-item" key={appointment.id}>
-            <div>
-              <h2>{serviceNames.join(" + ") || "Servicio"}</h2>
-              <p>
-                {new Date(appointment.start_at).toLocaleString()} -{" "}
-                {new Date(appointment.end_at).toLocaleTimeString()}
+          <article className="admin-list-item admin-appointment-card" key={appointment.id}>
+            <div className="admin-appointment-main">
+              <div className="admin-appointment-title-row">
+                <h2>{serviceNames.join(" + ") || "Servicio"}</h2>
+                <span className={`admin-status ${statusClass(appointment.status)}`}>{statusLabel(appointment.status)}</span>
+              </div>
+              <p className="admin-appointment-time">
+                <CalendarDays size={14} aria-hidden="true" />
+                {formatDateTimeRange(appointment.start_at, appointment.end_at)} · {professional?.name ?? "Sin profesional"}
               </p>
-              <p className="muted">Estado: {appointment.status}</p>
-              {appointment.notes ? <p>Notas: {appointment.notes}</p> : null}
-            </div>
-
-            <div className="admin-list-meta">
-              <p>
+              <p className="admin-appointment-client">
                 <strong>{customer?.full_name ?? "Cliente"}</strong>
+                <span>
+                  {customer?.phone ?? "-"} · {customer?.email ?? "-"}
+                </span>
               </p>
-              <p>{customer?.phone ?? "-"}</p>
-              <p>{customer?.email ?? "-"}</p>
-              <p>Prof: {professional?.name ?? "-"}</p>
-              <p>
-                Total: ${appointment.total_amount} | Sena: ${appointment.deposit_amount} | Restante: $
-                {appointment.remaining_amount}
-              </p>
+              {appointment.notes ? <p className="muted">Notas: {appointment.notes}</p> : null}
+              <div className="admin-appointment-money" aria-label="Importes del turno">
+                <span>
+                  Total <strong>{formatMoney(appointment.total_amount)}</strong>
+                </span>
+                <span>
+                  Seña <strong>{formatMoney(appointment.deposit_amount)}</strong>
+                </span>
+                <span>
+                  Resta <strong>{formatMoney(appointment.remaining_amount)}</strong>
+                </span>
+              </div>
               <button
-                className="admin-button"
+                className="admin-button admin-detail-toggle"
                 type="button"
                 onClick={() => setExpandedId(isExpanded ? null : appointment.id)}
               >
@@ -117,4 +124,53 @@ function firstRelation<T>(relation: Relation<T> | undefined): T | undefined {
   }
 
   return relation ?? undefined;
+}
+
+function formatDateTimeRange(startValue: string, endValue: string) {
+  const start = new Date(startValue);
+  const end = new Date(endValue);
+  const date = new Intl.DateTimeFormat("es-AR", {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+    timeZone: "America/Argentina/Buenos_Aires"
+  }).format(start);
+  const startTime = new Intl.DateTimeFormat("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "America/Argentina/Buenos_Aires"
+  }).format(start);
+  const endTime = new Intl.DateTimeFormat("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "America/Argentina/Buenos_Aires"
+  }).format(end);
+
+  return `${date} · ${startTime}-${endTime}`;
+}
+
+function formatMoney(amount: number) {
+  return `$${new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 }).format(amount)}`;
+}
+
+function statusLabel(status: string) {
+  const labels: Record<string, string> = {
+    pending_payment: "Pendiente",
+    confirmed: "Confirmado",
+    attended: "Asistió",
+    no_show: "No asistió",
+    cancelled: "Cancelado",
+    payment_expired: "Vencido",
+    payment_failed: "Falló pago"
+  };
+
+  return labels[status] ?? status;
+}
+
+function statusClass(status: string) {
+  if (status === "confirmed" || status === "attended") return "active";
+  if (status === "pending_payment") return "warning";
+  return "danger-soft";
 }

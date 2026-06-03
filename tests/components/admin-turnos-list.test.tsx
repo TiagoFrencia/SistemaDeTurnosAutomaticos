@@ -41,12 +41,12 @@ describe("AdminTurnosList", () => {
     );
 
     expect(screen.getByText("Ana Perez")).toBeInTheDocument();
-    expect(screen.getByText("+5491111111111")).toBeInTheDocument();
+    expect(screen.getByText((text) => text.includes("+5491111111111"))).toBeInTheDocument();
     expect(screen.getByText("Manicure")).toBeInTheDocument();
-    expect(screen.getByText("Prof: Azul")).toBeInTheDocument();
+    expect(screen.getByText((text) => text.includes("Azul"))).toBeInTheDocument();
     expect(screen.getByText("Belen Ruiz")).toBeInTheDocument();
     expect(screen.getByText("Kapping")).toBeInTheDocument();
-    expect(screen.getByText((text) => text.includes("Restante: $8000"))).toBeInTheDocument();
+    expect(screen.getAllByLabelText("Importes del turno")[1]).toHaveTextContent("Resta $8.000");
   });
 
   it("expands appointment detail from the list", () => {

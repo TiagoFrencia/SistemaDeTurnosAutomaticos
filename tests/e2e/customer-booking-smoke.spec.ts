@@ -33,7 +33,7 @@ test.describe("customer booking smoke", () => {
     await page.goto("/admin/turnos");
 
     await expect(page.getByText(customer.fullName)).toBeVisible();
-    await expect(page.getByText("Estado: confirmed").first()).toBeVisible();
+    await expect(page.getByText(/Confirmado|Estado: confirmed/i).first()).toBeVisible();
 
     await page.goto("/achul-nails");
     await expect(page.getByRole("button", { name: selectedSlotLabel })).toHaveCount(0);

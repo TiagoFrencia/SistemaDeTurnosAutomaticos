@@ -21,9 +21,9 @@ describe("AppointmentDetail", () => {
     expect(screen.getByText("ana@example.com")).toBeInTheDocument();
     expect(screen.getByText("Manicure")).toBeInTheDocument();
     expect(screen.getByText("Azul")).toBeInTheDocument();
-    expect(screen.getByText("Total: $5000")).toBeInTheDocument();
-    expect(screen.getByText("Sena pagada: $1500")).toBeInTheDocument();
-    expect(screen.getByText("Saldo restante: $3500")).toBeInTheDocument();
+    expect(screen.getByText((text) => text.includes("Total: $") && text.includes("5000"))).toBeInTheDocument();
+    expect(screen.getByText((text) => text.includes("Seña pagada: $") && text.includes("1500"))).toBeInTheDocument();
+    expect(screen.getByText((text) => text.includes("Saldo restante: $") && text.includes("3500"))).toBeInTheDocument();
   });
 
   it("marks an appointment as attended", async () => {

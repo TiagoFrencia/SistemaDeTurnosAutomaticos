@@ -809,6 +809,17 @@ a {
   min-width: 0;
 }
 
+.admin-mobile-header,
+.admin-mobile-bottom-nav,
+.admin-mobile-date,
+.admin-mobile-page-count,
+.admin-mobile-chip-row,
+.admin-mobile-section-count,
+.admin-mobile-note,
+.admin-quick-title {
+  display: none;
+}
+
 .admin-panel {
   display: grid;
   gap: 22px;
@@ -1294,6 +1305,10 @@ a {
   padding: 16px 18px;
 }
 
+.admin-dashboard-card.featured {
+  border-color: color-mix(in srgb, var(--cta-strong) 28%, transparent);
+}
+
 .admin-dashboard-card span {
   color: var(--muted);
   font-weight: 850;
@@ -1359,6 +1374,9 @@ a {
 }
 
 .admin-quick-actions a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
   padding: 13px 14px;
   color: var(--cta-strong);
   font-weight: 850;
@@ -1537,6 +1555,155 @@ a {
 .admin-status.active {
   color: var(--brand-ink);
   background: var(--brand-soft);
+}
+
+.admin-status.warning {
+  color: #7c4a05;
+  background: #fff0ce;
+}
+
+.admin-status.danger-soft {
+  color: var(--cta-strong);
+  background: color-mix(in srgb, var(--danger) 8%, #fffdfa);
+}
+
+.admin-appointment-main,
+.admin-appointment-title-row,
+.admin-appointment-client,
+.admin-appointment-money {
+  min-width: 0;
+}
+
+.admin-appointment-title-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.admin-appointment-time {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.admin-appointment-client {
+  display: grid;
+  gap: 1px;
+}
+
+.admin-appointment-client span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.admin-appointment-money {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(33, 27, 22, 0.1);
+}
+
+.admin-appointment-money span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.admin-appointment-money strong {
+  color: var(--foreground);
+}
+
+.admin-detail-toggle {
+  margin-top: 10px;
+}
+
+.admin-segmented-tabs {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.admin-segmented-tabs button {
+  flex: 1;
+  min-height: 42px;
+  border: 0;
+  background: transparent;
+  color: var(--cta-strong);
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.admin-segmented-tabs button[aria-selected="true"] {
+  color: #fffdfa;
+  background: var(--cta-strong);
+}
+
+.admin-tab-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-hour-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.admin-service-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border: 0;
+  border-bottom: 1px solid rgba(33, 27, 22, 0.1);
+  background: transparent;
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-service-card:last-child {
+  border-bottom: 0;
+}
+
+.admin-service-card.selected {
+  background: color-mix(in srgb, var(--brand-soft) 60%, transparent);
+}
+
+.admin-service-card strong,
+.admin-service-card small,
+.admin-service-card em {
+  display: block;
+}
+
+.admin-service-card small {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.admin-service-card .admin-status {
+  width: fit-content;
+  margin-top: 8px;
+  min-height: 24px;
+  font-style: normal;
+}
+
+.admin-service-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--cta-strong);
+  background: color-mix(in srgb, var(--brand-soft) 70%, #fffdfa);
+}
+
+.admin-edit-service-form h2 {
+  margin: 0;
+  font-size: 1rem;
 }
 
 .admin-row-actions {
@@ -1750,4 +1917,454 @@ a {
     margin-left: 0;
   }
 
+}
+
+@media (max-width: 640px) {
+  .admin-shell {
+    display: block;
+    min-height: 100svh;
+    padding: 0;
+    background:
+      linear-gradient(90deg, rgba(126, 88, 68, 0.05) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(126, 88, 68, 0.05) 1px, transparent 1px),
+      #fbf4ef;
+    background-size: 28px 28px;
+  }
+
+  .admin-sidebar {
+    display: none;
+  }
+
+  .admin-mobile-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 74px;
+    padding: 16px 28px 12px;
+    border-bottom: 1px solid rgba(120, 46, 76, 0.18);
+    background: rgba(251, 244, 239, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  .admin-mobile-header strong {
+    display: block;
+    color: #211b16;
+    font-size: 1rem;
+    line-height: 1.05;
+  }
+
+  .admin-mobile-header span {
+    display: block;
+    margin-top: 2px;
+    color: #7c6d64;
+    font-size: 0.76rem;
+    font-weight: 650;
+  }
+
+  .admin-mobile-avatar {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 999px;
+    color: #fffdfa;
+    background: #6f2948;
+    font-weight: 900;
+    text-decoration: none;
+  }
+
+  .admin-mobile-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .admin-mobile-menu-dots {
+    color: #6f2948;
+    font-size: 1.1rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.08em;
+  }
+
+  .admin-mobile-bottom-nav {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    min-height: 70px;
+    padding: 7px 12px calc(7px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(120, 46, 76, 0.18);
+    background: rgba(255, 253, 250, 0.96);
+    backdrop-filter: blur(16px);
+  }
+
+  .admin-mobile-bottom-nav a {
+    display: grid;
+    place-items: center;
+    gap: 3px;
+    color: #c69aa4;
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .admin-mobile-bottom-nav a[aria-current="page"] {
+    color: #6f2948;
+  }
+
+  .admin-content {
+    width: 100%;
+    padding: 18px 28px 96px;
+    overflow: visible;
+  }
+
+  .admin-panel {
+    gap: 16px;
+  }
+
+  .admin-panel-heading {
+    gap: 8px;
+  }
+
+  .admin-panel h1 {
+    font-size: 1.28rem;
+    line-height: 1.05;
+    font-family: var(--body-font, inherit);
+    font-weight: 900;
+  }
+
+  .admin-kicker {
+    display: none;
+  }
+
+  .admin-help,
+  .admin-form small,
+  .muted {
+    font-size: 0.77rem;
+  }
+
+  .admin-mobile-date,
+  .admin-mobile-page-count,
+  .admin-mobile-section-count,
+  .admin-quick-title {
+    display: block;
+    color: #9d756b;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .admin-mobile-page-count {
+    margin-top: 3px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .admin-dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .admin-dashboard-card,
+  .admin-next-card,
+  .admin-quick-actions a,
+  .admin-form,
+  .admin-list,
+  .admin-subsection {
+    border-color: rgba(120, 46, 76, 0.18);
+    border-radius: 12px;
+    background: rgba(255, 253, 250, 0.88);
+    box-shadow: none;
+  }
+
+  .admin-dashboard-card {
+    min-height: 88px;
+    padding: 13px 14px;
+  }
+
+  .admin-dashboard-card.featured {
+    color: #fffdfa;
+    background: #6f2948;
+    border-color: #6f2948;
+  }
+
+  .admin-dashboard-card.featured span,
+  .admin-dashboard-card.featured strong,
+  .admin-dashboard-card.featured em {
+    color: #fffdfa;
+  }
+
+  .admin-dashboard-card span {
+    font-size: 0.82rem;
+  }
+
+  .admin-dashboard-card strong {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.8rem;
+    line-height: 0.95;
+  }
+
+  .admin-dashboard-card em {
+    font-size: 0.68rem;
+  }
+
+  .admin-next-card {
+    padding: 14px;
+  }
+
+  .admin-next-card h2 {
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 900;
+  }
+
+  .admin-next-card a {
+    font-size: 0.78rem;
+  }
+
+  .admin-quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .admin-quick-actions a {
+    justify-content: center;
+    min-height: 42px;
+    padding: 10px 12px;
+    color: #6f2948;
+    font-size: 0.76rem;
+  }
+
+  .admin-mobile-chip-row {
+    display: flex;
+    gap: 8px;
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .admin-mobile-chip-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-filter-chip {
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 8px 14px;
+    border: 1px solid rgba(120, 46, 76, 0.22);
+    border-radius: 999px;
+    color: #6f2948;
+    background: rgba(255, 253, 250, 0.86);
+    font-size: 0.78rem;
+    font-weight: 850;
+    text-decoration: none;
+  }
+
+  .admin-filter-chip.active {
+    color: #fffdfa;
+    background: #6f2948;
+    border-color: #6f2948;
+  }
+
+  .admin-form {
+    padding: 13px;
+  }
+
+  .admin-form input,
+  .admin-form select,
+  .admin-form textarea,
+  .admin-reschedule-form input {
+    min-height: 42px;
+    border-color: transparent;
+    background: #2f302c;
+    color: #fffdfa;
+    font-size: 0.86rem;
+  }
+
+  .admin-form input::placeholder,
+  .admin-form textarea::placeholder {
+    color: rgba(255, 253, 250, 0.58);
+  }
+
+  .admin-form label,
+  .admin-field,
+  .admin-context-grid span {
+    color: #9d756b;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .input-affix {
+    border: 0;
+    background: #2f302c;
+  }
+
+  .input-affix > span {
+    color: #fffdfa;
+    background: #2f302c;
+  }
+
+  .admin-primary-button,
+  .admin-row-actions button {
+    min-height: 42px;
+    border-radius: 9px;
+  }
+
+  .admin-primary-button {
+    width: 100%;
+    justify-self: stretch;
+    background: #6f2948;
+  }
+
+  .admin-list-item {
+    display: block;
+    padding: 14px;
+    border-bottom: 1px solid rgba(120, 46, 76, 0.14);
+  }
+
+  .admin-appointments-list,
+  .admin-whatsapp-list,
+  .admin-services-list {
+    gap: 10px;
+    border: 0;
+    background: transparent;
+  }
+
+  .admin-appointment-card,
+  .admin-whatsapp-item,
+  .admin-service-card,
+  .admin-edit-service-form,
+  .admin-schedule-form {
+    border: 1px solid rgba(120, 46, 76, 0.18);
+    border-radius: 12px;
+    background: rgba(255, 253, 250, 0.9);
+  }
+
+  .admin-appointment-title-row h2,
+  .admin-list-item h2 {
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  .admin-status {
+    min-height: 24px;
+    padding: 0 9px;
+    font-size: 0.66rem;
+  }
+
+  .admin-appointment-time,
+  .admin-appointment-client span,
+  .admin-appointment-money span,
+  .admin-list-item p {
+    font-size: 0.73rem;
+  }
+
+  .admin-appointment-money {
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .admin-detail-toggle {
+    width: 100%;
+    min-height: 36px;
+    border: 1px solid rgba(120, 46, 76, 0.14);
+    border-radius: 8px;
+    background: rgba(255, 253, 250, 0.72);
+    color: #6f2948;
+    font-weight: 850;
+  }
+
+  .admin-whatsapp-summary {
+    gap: 12px;
+  }
+
+  .admin-whatsapp-meta {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 0.68rem;
+  }
+
+  .admin-row-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    width: 100%;
+  }
+
+  .admin-row-actions button {
+    width: 100%;
+    color: #6f2948;
+    background: color-mix(in srgb, #6f2948 9%, #fffdfa);
+  }
+
+  .admin-row-actions button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .admin-context-grid,
+  .admin-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-segmented-tabs {
+    border-radius: 10px;
+  }
+
+  .admin-hour-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .admin-mobile-note {
+    display: block;
+    margin: 0;
+    padding: 12px;
+    border-radius: 10px;
+    color: #6f2948;
+    background: rgba(120, 46, 76, 0.06);
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .admin-create-service-form label,
+  .admin-create-service-form textarea,
+  .admin-create-service-form .admin-form-grid {
+    display: none;
+  }
+
+  .admin-service-card {
+    border-bottom: 0;
+  }
+
+  .admin-service-card.selected {
+    border-color: rgba(120, 46, 76, 0.28);
+    background: rgba(255, 253, 250, 0.94);
+  }
+
+  .admin-edit-service-form h2 {
+    color: #6f2948;
+    font-size: 0.9rem;
+  }
+
+  .admin-edit-service-form .admin-row-actions button:first-child {
+    color: #9b1743;
+    background: transparent;
+    border: 1px solid rgba(155, 23, 67, 0.2);
+  }
+
+  .admin-edit-service-form .admin-row-actions button:last-child {
+    color: #fffdfa;
+    background: #6f2948;
+  }
 }

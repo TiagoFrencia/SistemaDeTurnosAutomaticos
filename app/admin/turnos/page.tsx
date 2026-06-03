@@ -14,6 +14,7 @@ export default async function Page({ searchParams }: Props) {
   await requireAdminPageAccess(PILOT_BUSINESS_SLUG);
   const supabase = createSupabaseServiceClient();
   const { date, status, professionalId, page, clientName } = searchParams || {};
+  const today = todayDate();
 
   const { data: business } = await supabase
     .from("businesses")
@@ -77,10 +78,24 @@ export default async function Page({ searchParams }: Props) {
         <div>
           <p className="admin-kicker">Turnos</p>
           <h1 id="turnos-title">Turnos confirmados</h1>
+          <p className="admin-mobile-page-count">{total} resultados</p>
         </div>
       </div>
 
       <form className="admin-form" method="get">
+        <div className="admin-mobile-chip-row" aria-label="Filtros rápidos de turnos">
+          {[
+            { href: "/admin/turnos", label: "Todos", active: !date && !status },
+            { href: `/admin/turnos?date=${today}`, label: "Hoy", active: date === today },
+            { href: "/admin/turnos?status=pending_payment", label: "Pendientes", active: status === "pending_payment" },
+            { href: "/admin/turnos?status=confirmed", label: "Confirmados", active: status === "confirmed" },
+            { href: "/admin/turnos?status=payment_expired", label: "Vencidos", active: status === "payment_expired" }
+          ].map((chip) => (
+            <a className={`admin-filter-chip${chip.active ? " active" : ""}`} href={chip.href} key={chip.label}>
+              {chip.label}
+            </a>
+          ))}
+        </div>
         <div className="admin-form-grid">
           <label>
             Fecha
@@ -119,7 +134,7 @@ export default async function Page({ searchParams }: Props) {
               Resultados: <strong>{total}</strong>
             </div>
             <div>
-              Pagina
+              Página
               <select name="page" defaultValue={String(pageNumber)} style={{ marginLeft: 8 }}>
                 {Array.from({ length: lastPage }, (_, i) => i + 1).map((p) => (
                   <option key={p} value={String(p)}>
@@ -170,4 +185,8 @@ export default async function Page({ searchParams }: Props) {
 
     return base.range(from, to);
   }
+}
+
+function todayDate() {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Argentina/Buenos_Aires" }).format(new Date());
 }

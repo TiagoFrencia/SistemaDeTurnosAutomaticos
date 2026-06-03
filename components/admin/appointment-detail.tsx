@@ -118,7 +118,7 @@ export function AppointmentDetail({ appointment }: { appointment: AppointmentDet
         <div>
           <h4>Cobro</h4>
           <p>Total: ${appointment.total_amount}</p>
-          <p>Sena pagada: ${appointment.deposit_amount}</p>
+          <p>Seña pagada: ${appointment.deposit_amount}</p>
           <p>Saldo restante: ${appointment.remaining_amount}</p>
         </div>
       </div>

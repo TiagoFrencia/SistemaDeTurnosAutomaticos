@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { CalendarPlus, Clock, MessageCircle, NotebookTabs } from "lucide-react";
 
 type DashboardMetric = {
   href: string;
@@ -18,14 +19,24 @@ type NextAppointment = {
 type AdminDashboardProps = {
   metrics: DashboardMetric[];
   nextAppointment: NextAppointment;
+  todayLabel?: string;
 };
 
-export function AdminDashboard({ metrics, nextAppointment }: AdminDashboardProps) {
+const quickActions = [
+  { href: "/admin/turnos", label: "Crear turno", icon: CalendarPlus },
+  { href: "/admin/whatsapp", label: "WhatsApp", icon: MessageCircle },
+  { href: "/admin/agenda", label: "Horarios", icon: Clock },
+  { href: "/admin/turnos", label: "Ver agenda", icon: NotebookTabs }
+];
+
+export function AdminDashboard({ metrics, nextAppointment, todayLabel = "Hoy" }: AdminDashboardProps) {
   return (
     <>
+      <div className="admin-mobile-date">{todayLabel}</div>
+
       <div className="admin-dashboard-grid">
-        {metrics.map((metric) => (
-          <DashboardCard key={metric.label} {...metric} />
+        {metrics.map((metric, index) => (
+          <DashboardCard key={metric.label} featured={index === 0} {...metric} />
         ))}
       </div>
 
@@ -42,24 +53,31 @@ export function AdminDashboard({ metrics, nextAppointment }: AdminDashboardProps
             confirmar seña, saldo o asistencia.
           </p>
         ) : (
-          <p>La agenda de hoy queda tranquila. Si entra una clienta por WhatsApp, revisá el panel de chats.</p>
+          <p>La agenda queda tranquila. Ver agenda →</p>
         )}
         <Link href="/admin/turnos">Ver agenda de hoy</Link>
       </section>
 
+      <div className="admin-quick-title">Acciones rápidas</div>
       <div className="admin-quick-actions" aria-label="Accesos rápidos">
-        <Link href="/admin/turnos">Ver agenda de hoy</Link>
-        <Link href="/admin/turnos">Crear turno manual</Link>
-        <Link href="/admin/whatsapp">Revisar WhatsApp</Link>
-        <Link href="/admin/agenda">Configurar horarios</Link>
+        {quickActions.map((action) => {
+          const Icon = action.icon;
+
+          return (
+            <Link href={action.href} key={action.label}>
+              <Icon size={16} aria-hidden="true" />
+              <span>{action.label}</span>
+            </Link>
+          );
+        })}
       </div>
     </>
   );
 }
 
-function DashboardCard({ href, label, value, helper }: DashboardMetric) {
+function DashboardCard({ href, label, value, helper, featured }: DashboardMetric & { featured?: boolean }) {
   return (
-    <Link className="admin-dashboard-card" href={href}>
+    <Link className={`admin-dashboard-card${featured ? " featured" : ""}`} href={href}>
       <span>{label}</span>
       <strong>{value}</strong>
       <em>{helper}</em>

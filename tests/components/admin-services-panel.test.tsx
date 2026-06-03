@@ -41,13 +41,13 @@ describe("AdminServicesPanel", () => {
     render(<AdminServicesPanel businessSlug="achul-nails" services={[]} />);
 
     fireEvent.change(screen.getByLabelText("Nombre del servicio"), { target: { value: "Kapping gel" } });
-    fireEvent.change(screen.getByLabelText("Descripcion"), { target: { value: "Refuerzo" } });
-    fireEvent.change(screen.getByLabelText("Duracion"), { target: { value: "90" } });
+    fireEvent.change(screen.getByLabelText("Descripción"), { target: { value: "Refuerzo" } });
+    fireEvent.change(screen.getByLabelText("Duración"), { target: { value: "90" } });
     fireEvent.change(screen.getByLabelText("Precio"), { target: { value: "8000" } });
     fireEvent.change(screen.getByLabelText("Monto de seña"), { target: { value: "2500" } });
-    fireEvent.click(screen.getByRole("button", { name: "Guardar servicio" }));
+    fireEvent.click(screen.getByRole("button", { name: "Agregar servicio" }));
 
-    await screen.findByText("Kapping gel");
+    expect((await screen.findAllByText("Kapping gel")).length).toBeGreaterThan(0);
     expect(screen.getByText((text) => text.includes("$8.000"))).toBeInTheDocument();
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
   });
@@ -60,7 +60,44 @@ describe("AdminServicesPanel", () => {
     expect(screen.getByLabelText("Porcentaje de seña")).toHaveAttribute("max", "100");
     expect(screen.getByText("Ejemplo: 30 significa 30% del precio total.")).toBeInTheDocument();
   });
+
+  it("filters services by active and paused state from the mobile chips", () => {
+    render(
+      <AdminServicesPanel
+        businessSlug="achul-nails"
+        services={[
+          service({ id: "service-1", name: "Manicure semipermanente", active: true }),
+          service({ id: "service-2", name: "Kapping gel", active: false })
+        ]}
+      />
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Pausados" }));
+
+    expect(screen.queryByText("Manicure semipermanente")).not.toBeInTheDocument();
+    expect(screen.getAllByText("Kapping gel").length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: "Pausados" })).toHaveClass("active");
+
+    fireEvent.click(screen.getByRole("button", { name: "Activos" }));
+
+    expect(screen.getAllByText("Manicure semipermanente").length).toBeGreaterThan(0);
+    expect(screen.queryByText("Kapping gel")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Activos" })).toHaveClass("active");
+  });
 });
+
+function service(overrides: { id: string; name: string; active: boolean }) {
+  return {
+    businessId: "biz-1",
+    description: "",
+    durationMinutes: 60,
+    priceAmount: 5000,
+    depositType: "fixed" as const,
+    depositValue: 1500,
+    depositAmount: 1500,
+    ...overrides
+  };
+}
 
 function jsonResponse(body: unknown, status = 201): Response {
   return new Response(JSON.stringify(body), {

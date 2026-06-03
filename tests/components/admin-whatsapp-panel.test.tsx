@@ -26,7 +26,7 @@ describe("AdminWhatsAppPanel", () => {
 
     expect(screen.getByText("+5491111111111")).toBeInTheDocument();
     expect(screen.getByText("Confirmando resumen")).toBeInTheDocument();
-    expect(screen.getByText(/Ultimo mensaje:/)).toBeInTheDocument();
+    expect(screen.getByText(/Último mensaje:/)).toBeInTheDocument();
     expect(screen.getByText(/Mensajes procesados:/)).toBeInTheDocument();
     expect(screen.getByText(/Esperando que confirme y pague/)).toBeInTheDocument();
 
@@ -54,7 +54,7 @@ describe("AdminWhatsAppPanel", () => {
 
     render(<AdminWhatsAppPanel conversations={[conversation()]} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Reiniciar chat" }));
+    fireEvent.click(screen.getByRole("button", { name: "Reiniciar" }));
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
     expect(refresh).toHaveBeenCalledTimes(1);

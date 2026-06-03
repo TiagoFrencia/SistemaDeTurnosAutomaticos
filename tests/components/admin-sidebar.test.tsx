@@ -27,7 +27,7 @@ describe("AdminSidebar", () => {
   it("renders the admin navigation in daily-use order", () => {
     render(<AdminSidebar logoUrl="https://example.com/logo.png" />);
 
-    const nav = screen.getByRole("navigation");
+    const nav = screen.getByRole("navigation", { name: "Navegación admin" });
     const links = within(nav).getAllByRole("link").map((link) => link.textContent);
 
     expect(links).toEqual([
@@ -41,6 +41,20 @@ describe("AdminSidebar", () => {
       "Cuenta",
       "Reserva pública"
     ]);
-    expect(screen.getByRole("link", { name: "Turnos" })).toHaveAttribute("aria-current", "page");
+    expect(within(nav).getByRole("link", { name: "Turnos" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("renders the mobile bottom nav with the active route", () => {
+    render(<AdminSidebar logoUrl={null} />);
+
+    const mobileNav = screen.getByRole("navigation", { name: "Navegación admin mobile" });
+    expect(within(mobileNav).getAllByRole("link").map((link) => link.textContent)).toEqual([
+      "Inicio",
+      "Turnos",
+      "WhatsApp",
+      "Agenda",
+      "Config."
+    ]);
+    expect(within(mobileNav).getByRole("link", { name: "Turnos" })).toHaveAttribute("aria-current", "page");
   });
 });

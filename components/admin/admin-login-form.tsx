@@ -25,7 +25,7 @@ export function AdminLoginForm() {
     });
 
     if (authError) {
-      setError("Email o contrasena incorrectos.");
+      setError("Email o contraseña incorrectos.");
       setSubmitting(false);
       return;
     }
@@ -48,7 +48,7 @@ export function AdminLoginForm() {
         />
       </label>
       <label>
-        Contrasena
+        Contraseña
         <input
           autoComplete="current-password"
           name="password"

@@ -47,7 +47,7 @@ describe("ManualAppointmentForm", () => {
     fireEvent.change(screen.getByLabelText("Profesional"), { target: { value: "professional-1" } });
     fireEvent.change(screen.getByLabelText("Inicio"), { target: { value: "2026-06-01T09:00" } });
     fireEvent.change(screen.getByLabelText("Nombre cliente"), { target: { value: "Ana Perez" } });
-    fireEvent.change(screen.getByLabelText("Telefono"), { target: { value: "+5491111111111" } });
+    fireEvent.change(screen.getByLabelText("Teléfono"), { target: { value: "+5491111111111" } });
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "ana@example.com" } });
     fireEvent.click(screen.getByRole("button", { name: "Crear turno manual" }));
 
@@ -73,9 +73,9 @@ describe("ManualAppointmentForm", () => {
 
     fireEvent.change(screen.getByLabelText("Profesional"), { target: { value: "professional-1" } });
     fireEvent.change(screen.getByLabelText("Inicio"), { target: { value: "2026-06-01T09:00" } });
-    fireEvent.click(screen.getByLabelText("Sena pagada en efectivo"));
+    fireEvent.click(screen.getByLabelText("Seña pagada en efectivo"));
     fireEvent.change(screen.getByLabelText("Nombre cliente"), { target: { value: "Ana Perez" } });
-    fireEvent.change(screen.getByLabelText("Telefono"), { target: { value: "+5491111111111" } });
+    fireEvent.change(screen.getByLabelText("Teléfono"), { target: { value: "+5491111111111" } });
     fireEvent.click(screen.getByRole("button", { name: "Crear turno manual" }));
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
