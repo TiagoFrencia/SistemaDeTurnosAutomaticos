@@ -1,4 +1,5 @@
 import { createSupabaseServiceClient } from "@/lib/supabase/server";
+import { AdminTurnosFilters } from "@/components/admin/admin-turnos-filters";
 import AdminTurnosList from "@/components/admin/admin-turnos-list";
 import { ManualAppointmentForm } from "@/components/admin/manual-appointment-form";
 import { requireAdminPageAccess } from "@/lib/admin/admin-auth";
@@ -73,7 +74,7 @@ export default async function Page({ searchParams }: Props) {
   const lastPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
-    <section className="admin-panel" aria-labelledby="turnos-title">
+    <section className="admin-panel admin-turnos-panel" aria-labelledby="turnos-title">
       <div className="admin-panel-heading">
         <div>
           <p className="admin-kicker">Turnos</p>
@@ -82,86 +83,18 @@ export default async function Page({ searchParams }: Props) {
         </div>
       </div>
 
-      <form className="admin-form" method="get">
-        <div className="admin-mobile-chip-row" aria-label="Filtros rápidos de turnos">
-          {[
-            { href: "/admin/turnos", label: "Todos", active: !date && !status },
-            { href: `/admin/turnos?date=${today}`, label: "Hoy", active: date === today },
-            { href: "/admin/turnos?status=pending_payment", label: "Pendientes", active: status === "pending_payment" },
-            { href: "/admin/turnos?status=confirmed", label: "Confirmados", active: status === "confirmed" },
-            { href: "/admin/turnos?status=payment_expired", label: "Vencidos", active: status === "payment_expired" }
-          ].map((chip) => (
-            <a className={`admin-filter-chip${chip.active ? " active" : ""}`} href={chip.href} key={chip.label}>
-              {chip.label}
-            </a>
-          ))}
-        </div>
-        <div className="admin-form-grid">
-          <label>
-            Fecha
-            <input name="date" type="date" defaultValue={searchParams?.date} />
-          </label>
-          <label>
-            Estado
-            <select name="status" defaultValue={searchParams?.status ?? ""}>
-              <option value="">Todos</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="attended">Attended</option>
-              <option value="no_show">No show</option>
-            </select>
-          </label>
-          <label>
-            Profesional
-            <select name="professionalId" defaultValue={searchParams?.professionalId ?? ""}>
-              <option value="">Todos</option>
-              {professionals.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Cliente (nombre)
-            <input name="clientName" defaultValue={searchParams?.clientName ?? ""} placeholder="Maria" />
-          </label>
-        </div>
-        <div className="admin-filter-actions">
-          <button className="admin-primary-button">Filtrar</button>
-
-          <div className="admin-pagination-controls">
-            <div>
-              Resultados: <strong>{total}</strong>
-            </div>
-            <div>
-              Página
-              <select name="page" defaultValue={String(pageNumber)} style={{ marginLeft: 8 }}>
-                {Array.from({ length: lastPage }, (_, i) => i + 1).map((p) => (
-                  <option key={p} value={String(p)}>
-                    {p}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <a
-              className="admin-link"
-              href={`?${new URLSearchParams({ ...(searchParams || {}), page: String(Math.max(1, pageNumber - 1)) }).toString()}`}
-            >
-              Prev
-            </a>
-            <a
-              className="admin-link"
-              href={`?${new URLSearchParams({ ...(searchParams || {}), page: String(Math.min(lastPage, pageNumber + 1)) }).toString()}`}
-            >
-              Next
-            </a>
-          </div>
-        </div>
-      </form>
+      <AdminTurnosFilters
+        searchParams={searchParams || {}}
+        professionals={professionals}
+        total={total}
+        pageNumber={pageNumber}
+        lastPage={lastPage}
+        today={today}
+      />
 
       <AdminTurnosList appointments={appointments as never} />
 
-      <div style={{ marginTop: 16 }}>
+      <div className="admin-manual-appointment-section">
         <ManualAppointmentForm businessSlug={PILOT_BUSINESS_SLUG} services={services} professionals={professionals} />
       </div>
     </section>

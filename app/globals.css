@@ -814,6 +814,7 @@ a {
 .admin-mobile-date,
 .admin-mobile-page-count,
 .admin-mobile-chip-row,
+.admin-mobile-filter-button,
 .admin-mobile-section-count,
 .admin-mobile-note,
 .admin-quick-title {
@@ -1218,6 +1219,31 @@ a {
   gap: 8px;
   align-items: center;
   min-width: 0;
+}
+
+.admin-turnos-filter-shell {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-turnos-mobile-tools,
+.admin-turnos-mobile-panel,
+.admin-turnos-filter-form {
+  display: none;
+}
+
+.admin-pagination-page {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-pagination-page select {
+  width: auto;
+}
+
+.admin-manual-appointment-section {
+  margin-top: 16px;
 }
 
 .admin-pagination-controls {
@@ -2172,6 +2198,51 @@ a {
     color: #fffdfa;
     background: #6f2948;
     border-color: #6f2948;
+  }
+
+  .admin-turnos-filter-shell {
+    position: relative;
+    gap: 10px;
+  }
+
+  .admin-turnos-mobile-tools {
+    display: block;
+  }
+
+  .admin-mobile-filter-button {
+    position: absolute;
+    top: -58px;
+    right: 0;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 0;
+    border-radius: 10px;
+    color: #fffdfa;
+    background: #6f2948;
+    font-size: 0;
+    cursor: pointer;
+  }
+
+  .admin-mobile-filter-button svg {
+    display: block;
+  }
+
+  .admin-turnos-desktop-form {
+    display: none;
+  }
+
+  .admin-turnos-mobile-panel {
+    display: none;
+  }
+
+  .admin-turnos-mobile-panel.is-open {
+    display: block;
+  }
+
+  .admin-turnos-mobile-panel .admin-form {
+    margin-top: 2px;
   }
 
   .admin-form {
