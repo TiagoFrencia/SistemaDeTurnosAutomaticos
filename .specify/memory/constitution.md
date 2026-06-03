@@ -1,50 +1,39 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Turnos Estetica Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Anti-Inasistencias First
+Every product decision must support the main business promise: reduce no-shows and recover lost revenue for appointment-based beauty businesses. Agenda, deposit, and reminders are the core loop; secondary features must not dilute that loop.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Pilot Simplicity
+The pilot must favor manual, auditable operations over premature automation. Mercado Pago credentials are configured manually by environment for selected pilot businesses; OAuth connection is designed for Phase 2 but not required for MVP launch.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Independent User Stories
+Each user story must be independently testable and deliver visible value. The public booking flow, admin configuration, and appointment management must be separable enough to validate and demo incrementally.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Integration Safety
+Payments, availability, and notifications are high-risk boundaries. A slot is only confirmed after a successful Mercado Pago webhook, rejected or expired payments must release the slot, and notifications must be dispatched through a channel-agnostic interface.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Local Market Fit
+The product is designed first for Argentina: Mercado Pago, Spanish-language UX, local beauty-service workflows, mobile-first admin usage, and practical onboarding for non-technical owners.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Technical Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Use Next.js App Router for the web application, with Supabase for auth, PostgreSQL, and storage.
+- Use Mercado Pago Checkout Pro for deposits during the MVP.
+- Use Resend for transactional email through a notification service abstraction.
+- Keep WhatsApp and SMS out of MVP implementation while preserving a notification adapter interface for later channels.
+- Use Vercel-compatible deployment and environment configuration.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Spec Kit artifacts are the source of truth for feature intent, architecture, tasks, and acceptance criteria.
+- Tests must cover availability conflicts, payment state transitions, manual no-deposit appointments, notification dispatch, and user-story acceptance flows.
+- Public interfaces, data entities, and environment variables must be documented before implementation work begins.
+- Changes that alter payment, availability, or notification behavior require corresponding contract or test updates.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes ad hoc implementation choices. Any exception must be documented in the active feature plan with rationale, risk, and the simpler alternative considered.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-05-27 | **Last Amended**: 2026-05-27

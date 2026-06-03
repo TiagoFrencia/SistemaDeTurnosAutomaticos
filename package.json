@@ -1,0 +1,45 @@
+{
+  "name": "turnos-estetica",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:ngrok": "ngrok http 3000",
+    "mp:payment-methods": "node scripts/check-mercado-pago-payment-methods.mjs",
+    "pilot:cleanup": "node scripts/cleanup-pilot-test-data.mjs",
+    "pilot:provision-admin": "node scripts/provision-achul-admin.mjs",
+    "supabase:apply-cloud": "node scripts/apply-supabase-cloud.mjs",
+    "supabase:apply-migration": "node scripts/apply-supabase-migration.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.49.4",
+    "mercadopago": "^2.8.0",
+    "next": "^14.2.28",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "resend": "^4.3.0",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^22.15.3",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.6",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.28",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  }
+}
