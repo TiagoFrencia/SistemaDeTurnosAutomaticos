@@ -1,4 +1,5 @@
 import React from "react";
+import { Sparkles } from "lucide-react";
 import type { PublicAvailabilityResponse } from "@/lib/public/public-availability-service";
 
 type Props = {
@@ -9,22 +10,33 @@ type Props = {
 
 export function BusinessHeader({ business, depositAmount, durationMinutes }: Props) {
   return (
-    <header className="business-header">
-      <div className="booking-kicker">Agenda con seña</div>
-      <div className="business-lockup">
-        {business.branding.logoUrl ? (
-          <span className="business-logo-frame">
-            {/* The logo URL is admin-provided, so Next Image remote patterns cannot be known ahead of time. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={business.branding.logoUrl} alt="" className="business-logo" />
-          </span>
-        ) : null}
-        <h1>{business.name}</h1>
+    <header className="business-header app-business-header">
+      <div className="app-status-bar" aria-hidden="true">
+        <span>9:41</span>
+        <span className="app-menu-dots">•••</span>
       </div>
-      <p>{business.branding.heroText}</p>
-      <div className="booking-meta" aria-label="Datos del turno">
-        {business.address ? <span>{business.address}</span> : null}
-        <span>Seña {formatMoney(depositAmount)}</span>
+
+      <div className="app-business-lockup">
+        <span className="business-logo-frame app-logo-frame">
+          {business.branding.logoUrl ? (
+            <>
+              {/* The logo URL is admin-provided, so Next Image remote patterns cannot be known ahead of time. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={business.branding.logoUrl} alt="" className="business-logo" />
+            </>
+          ) : (
+            <Sparkles size={18} strokeWidth={2.7} />
+          )}
+        </span>
+        <div>
+          <h1>{business.name}</h1>
+          <p>{business.branding.heroText}</p>
+        </div>
+      </div>
+
+      <div className="booking-meta app-booking-meta" aria-label="Datos del turno">
+        <span>{business.address ?? "Direccion a confirmar"}</span>
+        <span>Sena {formatMoney(depositAmount)}</span>
         <span>{durationMinutes} min</span>
       </div>
     </header>

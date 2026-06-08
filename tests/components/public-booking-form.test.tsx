@@ -18,7 +18,7 @@ describe("PublicBookingForm", () => {
     vi.restoreAllMocks();
   });
 
-  it("refetches availability when services or professional change and submits the selected values", async () => {
+  it("refetches availability through the wizard and submits the selected values", async () => {
     const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
       if (String(input).startsWith("/api/public/businesses/achul-nails/availability")) {
         return jsonResponse(
@@ -50,25 +50,42 @@ describe("PublicBookingForm", () => {
     render(<PublicBookingForm availability={availability()} businessSlug="achul-nails" />);
 
     fireEvent.click(screen.getByLabelText(/Kapping gel/i));
-    fireEvent.change(screen.getByLabelText("Profesional"), { target: { value: secondProfessionalId } });
+    await waitFor(() => {
+      expect(fetchMock.mock.calls.some(([input]) => String(input).includes("serviceIds=" + secondServiceId))).toBe(
+        true
+      );
+    });
 
+    fireEvent.click(screen.getByRole("button", { name: "Continuar" }));
+    fireEvent.change(screen.getByRole("combobox", { name: "Profesional" }), {
+      target: { value: secondProfessionalId }
+    });
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Continuar" }));
     await waitFor(() => {
       expect(screen.getByRole("button", { name: /10:30/i })).toHaveAttribute("aria-pressed", "true");
     });
 
+    fireEvent.click(screen.getByRole("button", { name: "Continuar" }));
     fireEvent.change(screen.getByLabelText("Nombre completo"), { target: { value: "Ana Perez" } });
     fireEvent.change(screen.getByLabelText("WhatsApp"), { target: { value: "+5491111111111" } });
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "ana@example.com" } });
-    fireEvent.click(screen.getByRole("button", { name: "Continuar a Mercado Pago" }));
+    fireEvent.click(screen.getByRole("button", { name: "Continuar" }));
+
+    expect(screen.getByText("Resumen del turno")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Pagar sena con Mercado Pago" }));
 
     await screen.findByText("No pudimos iniciar la reserva.");
-    expect(fetchMock.mock.calls.some(([input]) => String(input).includes("serviceIds=" + secondServiceId))).toBe(
-      true
-    );
   });
 
   it("updates the selected slot when a customer chooses another time", () => {
     render(<PublicBookingForm availability={availability()} businessSlug="achul-nails" />);
+
+    fireEvent.click(screen.getByRole("button", { name: /Horario/i }));
 
     expect(screen.getByText("junio de 2026")).toBeInTheDocument();
     expect(screen.getByText("LU")).toBeInTheDocument();
@@ -78,11 +95,11 @@ describe("PublicBookingForm", () => {
       "true"
     );
     expect(screen.getByRole("button", { name: /martes, 2 de junio.*sin turnos/i })).toBeDisabled();
-    expect(screen.getByText("Elegí un día")).toBeInTheDocument();
-    expect(screen.getByText("Elegí un horario")).toBeInTheDocument();
+    expect(screen.getByText("Elegi un dia")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Horarios disponibles" })).toBeInTheDocument();
 
     const slots = screen.getByLabelText("Selector de horarios disponibles");
-    const secondSlot = within(slots).getByRole("button", { name: /lun 01 10:00/i });
+    const secondSlot = within(slots).getByRole("button", { name: /10:00/i });
     fireEvent.click(secondSlot);
 
     expect(secondSlot).toHaveAttribute("aria-pressed", "true");
@@ -108,6 +125,8 @@ describe("PublicBookingForm", () => {
       />
     );
 
+    fireEvent.click(screen.getByRole("button", { name: /Horario/i }));
+
     expect(screen.getByText("junio de 2026")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /martes, 30 de junio.*1 turno/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /11:00/i })).not.toBeInTheDocument();
@@ -115,16 +134,18 @@ describe("PublicBookingForm", () => {
     fireEvent.click(screen.getByRole("button", { name: "Mes siguiente" }));
     expect(screen.getByText("julio de 2026")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /miércoles, 1 de julio.*1 turno/i }));
+    fireEvent.click(screen.getByRole("button", { name: /1 de julio.*1 turno/i }));
     expect(screen.getByRole("button", { name: /11:00/i })).toHaveAttribute("aria-pressed", "true");
     expect(screen.queryByRole("button", { name: /09:00/i })).not.toBeInTheDocument();
   });
 
-  it("disables submit and shows an empty state when no slots are available", () => {
+  it("disables continuing from the schedule step and shows an empty state when no slots are available", () => {
     render(<PublicBookingForm availability={{ ...availability(), slots: [] }} businessSlug="achul-nails" />);
 
-    expect(screen.getByText("No hay horarios disponibles para esta selección.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Continuar a Mercado Pago" })).toBeDisabled();
+    fireEvent.click(screen.getByRole("button", { name: /Horario/i }));
+
+    expect(screen.getByText(/No hay horarios disponibles/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Continuar" })).toBeDisabled();
   });
 });
 
@@ -158,7 +179,7 @@ function availability(
       id: "11111111-1111-4111-8111-111111111111",
       name: "Achul_Nails",
       slug: "achul-nails",
-      address: "Dirección a confirmar",
+      address: "Direccion a confirmar",
       branding: {
         primaryColor: "#24594c",
         themePreset: "editorial_green",

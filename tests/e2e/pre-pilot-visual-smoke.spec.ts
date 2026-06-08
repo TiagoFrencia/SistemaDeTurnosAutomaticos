@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { attachScreenshot, expectNoHorizontalOverflow, loginAdmin } from "@/tests/e2e/helpers";
 
 const publicPages = [
-  { path: "/achul-nails", title: /Armá tu turno|Arma tu turno/i }
+  { path: "/achul-nails", title: /Achul_Nails/i }
 ];
 
 const adminPages = [

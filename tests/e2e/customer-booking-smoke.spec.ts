@@ -46,19 +46,28 @@ async function bookFirstAvailableSlot(page: Page, customer: E2ECustomer) {
   const serviceChoices = page.locator(".service-choice");
   if ((await serviceChoices.count()) > 1) {
     await serviceChoices.nth(1).click();
+    await expect(page.locator(".service-choice-list")).toHaveAttribute("aria-busy", "false");
+  }
+
+  await page.getByRole("button", { name: "Continuar" }).click();
+
+  if ((await serviceChoices.count()) > 1) {
     await expect(page.locator(".selected-services-list li")).toHaveCount(2);
   }
 
+  await page.getByRole("button", { name: "Continuar" }).click();
   const firstSlot = page.locator(".slot-grid button").first();
   await expect(firstSlot).toBeVisible();
   const selectedSlotLabel = (await firstSlot.textContent())?.replace(/\s+/g, " ").trim();
   expect(selectedSlotLabel).toBeTruthy();
 
   await firstSlot.click();
+  await page.getByRole("button", { name: "Continuar" }).click();
   await page.getByLabel("Nombre completo").fill(customer.fullName);
   await page.getByLabel("WhatsApp").fill(customer.phone);
   await page.getByLabel("Email").fill(customer.email);
-  await page.getByRole("button", { name: "Continuar a Mercado Pago" }).click();
+  await page.getByRole("button", { name: "Continuar" }).click();
+  await page.getByRole("button", { name: "Pagar sena con Mercado Pago" }).click();
 
   return selectedSlotLabel!;
 }
