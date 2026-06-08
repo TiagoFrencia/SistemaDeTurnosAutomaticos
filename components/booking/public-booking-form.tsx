@@ -161,7 +161,7 @@ export function PublicBookingForm({
     (step === 4 && Boolean(selectedSlot) && Boolean(customerComplete));
 
   return (
-    <section className="booking-panel public-app-panel" aria-label="Reservar turno">
+    <section className="booking-panel public-app-panel" aria-label="Reservar turno" data-step={step}>
       <StepNav activeStep={step} onSelectStep={(nextStep) => setStep(nextStep)} />
 
       <div className="public-step-content">

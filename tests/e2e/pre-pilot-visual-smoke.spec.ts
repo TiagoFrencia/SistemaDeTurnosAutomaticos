@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { attachScreenshot, expectNoHorizontalOverflow, loginAdmin } from "@/tests/e2e/helpers";
 
 const publicPages = [
@@ -26,6 +26,31 @@ test.describe("pre-pilot visual smoke", () => {
     }
   });
 
+  test("keeps public booking actions visible across compact mobile viewports", async ({ page }, testInfo) => {
+    const viewports = [
+      { width: 360, height: 640 },
+      { width: 360, height: 740 },
+      { width: 390, height: 844 },
+      { width: 412, height: 915 },
+      { width: 320, height: 568 }
+    ];
+
+    for (const viewport of viewports) {
+      await page.setViewportSize(viewport);
+      await page.goto("/achul-nails");
+      await expect(page.getByRole("heading", { name: /Achul_Nails/i }).first()).toBeVisible();
+
+      for (const step of [0, 1, 2, 3, 4]) {
+        await page.locator(".booking-step").nth(step).click();
+        await expect(page.locator(".app-step-actions")).toBeVisible();
+        await expectBookingSurfaceInsideViewport(page, viewport.height);
+        await expectNoHorizontalOverflow(page);
+      }
+
+      await attachScreenshot(page, testInfo, `public-booking-${viewport.width}x${viewport.height}`);
+    }
+  });
+
   test("renders admin screens without overflow", async ({ page }, testInfo) => {
     await loginAdmin(page);
 
@@ -38,3 +63,10 @@ test.describe("pre-pilot visual smoke", () => {
     }
   });
 });
+
+async function expectBookingSurfaceInsideViewport(page: Page, viewportHeight: number) {
+  const box = await page.locator(".booking-surface").boundingBox();
+  expect(box, "booking surface should be rendered").toBeTruthy();
+  expect(box!.y).toBeGreaterThanOrEqual(-1);
+  expect(box!.y + box!.height).toBeLessThanOrEqual(viewportHeight + 1);
+}

@@ -615,6 +615,385 @@
   }
 }
 
+/* Adaptive public booking sizing for real mobile browser chrome. */
+.public-shell {
+  --app-outer-pad: clamp(6px, 2.6vw, 18px);
+  --app-radius: clamp(18px, 6vw, 26px);
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  place-items: center;
+  padding:
+    max(var(--app-outer-pad), env(safe-area-inset-top))
+    max(var(--app-outer-pad), env(safe-area-inset-right))
+    max(var(--app-outer-pad), env(safe-area-inset-bottom))
+    max(var(--app-outer-pad), env(safe-area-inset-left));
+  overflow: hidden;
+}
+
+.booking-surface {
+  width: clamp(300px, calc(100vw - (var(--app-outer-pad) * 2)), 390px);
+  max-width: calc(100vw - (var(--app-outer-pad) * 2));
+  max-height: calc(100dvh - (var(--app-outer-pad) * 2));
+  max-height: calc(100svh - (var(--app-outer-pad) * 2));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: var(--app-radius);
+}
+
+.app-business-header {
+  gap: clamp(8px, 1.6dvh, 12px);
+  padding: clamp(9px, 1.7dvh, 12px) clamp(12px, 3.6vw, 16px) clamp(10px, 2dvh, 16px);
+}
+
+.app-status-bar {
+  min-height: clamp(13px, 1.8dvh, 16px);
+}
+
+.app-business-lockup {
+  grid-template-columns: clamp(24px, 7vw, 30px) minmax(0, 1fr);
+  gap: clamp(7px, 2.4vw, 10px);
+}
+
+.app-logo-frame {
+  width: clamp(24px, 7vw, 30px);
+  height: clamp(24px, 7vw, 30px);
+}
+
+.app-business-header h1 {
+  font-size: clamp(0.92rem, 4.3vw, 1.08rem);
+}
+
+.app-business-header p {
+  font-size: clamp(0.56rem, 2.65vw, 0.66rem);
+}
+
+.app-booking-meta {
+  gap: clamp(4px, 1.8vw, 7px);
+}
+
+.app-booking-meta span {
+  padding: clamp(4px, 1.4vw, 6px) clamp(6px, 2.4vw, 9px);
+  font-size: clamp(0.54rem, 2.45vw, 0.62rem);
+}
+
+.public-app-panel {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.booking-stepper {
+  min-height: 0;
+}
+
+.booking-step {
+  min-height: clamp(42px, 7.4dvh, 54px);
+  padding-block: clamp(6px, 1.2dvh, 8px);
+}
+
+.booking-step span {
+  width: clamp(16px, 5vw, 18px);
+  height: clamp(16px, 5vw, 18px);
+}
+
+.booking-step small {
+  font-size: clamp(0.48rem, 2.2vw, 0.54rem);
+}
+
+.public-step-content {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.public-step-content::-webkit-scrollbar {
+  display: none;
+}
+
+.app-step-screen {
+  min-height: 0;
+  gap: clamp(8px, 1.55dvh, 12px);
+  padding: clamp(9px, 1.7dvh, 16px) clamp(12px, 3.8vw, 16px) clamp(8px, 1.5dvh, 12px);
+}
+
+.app-step-label h3 {
+  font-size: clamp(0.58rem, 2.55vw, 0.66rem);
+}
+
+.app-service-list {
+  gap: clamp(7px, 1.4dvh, 10px);
+}
+
+.app-service-card {
+  min-height: clamp(49px, 8.2dvh, 62px);
+  padding: clamp(9px, 1.7dvh, 12px) 36px clamp(9px, 1.7dvh, 12px) clamp(10px, 3.2vw, 14px);
+}
+
+.app-service-card strong {
+  font-size: clamp(0.82rem, 4.1vw, 0.92rem);
+}
+
+.app-service-card small {
+  font-size: clamp(0.6rem, 2.65vw, 0.68rem);
+}
+
+.app-select-field select {
+  min-height: clamp(32px, 5.4dvh, 42px);
+}
+
+.professional-summary-card,
+.booking-summary-card {
+  gap: clamp(6px, 1.15dvh, 10px);
+  padding: clamp(9px, 1.8dvh, 12px);
+}
+
+.app-payment-note {
+  padding: clamp(9px, 1.8dvh, 12px);
+}
+
+.app-payment-note p {
+  font-size: clamp(0.64rem, 2.75vw, 0.72rem);
+}
+
+.app-customer-grid {
+  gap: clamp(7px, 1.45dvh, 10px);
+}
+
+.app-dark-field {
+  gap: clamp(4px, 0.8dvh, 6px);
+}
+
+.app-dark-field input {
+  min-height: clamp(32px, 5.4dvh, 42px);
+}
+
+.summary-row {
+  gap: clamp(6px, 2.4vw, 10px);
+  padding-bottom: clamp(6px, 1.2dvh, 8px);
+}
+
+.summary-row dt,
+.summary-row dd {
+  font-size: clamp(0.64rem, 2.9vw, 0.74rem);
+}
+
+.app-summary-copy {
+  font-size: clamp(0.62rem, 2.8vw, 0.72rem);
+  margin-block: clamp(2px, 0.7dvh, 6px);
+}
+
+.app-step-actions {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(6px, 2.4vw, 8px);
+  padding: clamp(7px, 1.4dvh, 10px) clamp(12px, 3.8vw, 16px) clamp(10px, 1.9dvh, 18px);
+  background: #fff8f4;
+}
+
+.secondary-button,
+.public-app-panel .primary-button {
+  min-height: clamp(32px, 5.6dvh, 38px);
+  font-size: clamp(0.66rem, 2.9vw, 0.74rem);
+}
+
+.public-app-panel[data-step="2"] .app-step-screen {
+  gap: clamp(6px, 1dvh, 10px);
+}
+
+.public-app-panel[data-step="2"] .slot-days,
+.public-app-panel[data-step="2"] .slot-calendar {
+  gap: clamp(6px, 1dvh, 9px);
+}
+
+.public-app-panel[data-step="2"] .slot-calendar-card {
+  gap: clamp(6px, 1dvh, 9px);
+  padding: clamp(7px, 1.25dvh, 10px);
+}
+
+.public-app-panel[data-step="2"] .slot-calendar-header {
+  grid-template-columns: clamp(28px, 8.4vw, 34px) minmax(0, 1fr) clamp(28px, 8.4vw, 34px);
+}
+
+.public-app-panel[data-step="2"] .slot-calendar-header h4 {
+  font-size: clamp(0.78rem, 3.8vw, 0.92rem);
+}
+
+.public-app-panel[data-step="2"] .slot-month-button {
+  width: clamp(28px, 8.4vw, 34px);
+  height: clamp(28px, 8.4vw, 34px);
+}
+
+.public-app-panel[data-step="2"] .slot-weekdays span {
+  min-height: clamp(16px, 2.8dvh, 22px);
+  font-size: clamp(0.54rem, 2.45vw, 0.62rem);
+}
+
+.public-app-panel[data-step="2"] .slot-calendar-grid {
+  gap: clamp(1px, 0.75vw, 3px);
+}
+
+.public-app-panel[data-step="2"] .slot-calendar-day {
+  min-height: clamp(22px, 4.25dvh, 31px);
+  font-size: clamp(0.6rem, 3vw, 0.72rem);
+}
+
+.public-app-panel[data-step="2"] .slot-day {
+  gap: clamp(5px, 0.9dvh, 8px);
+}
+
+.public-app-panel[data-step="2"] .slot-day h4 {
+  font-size: clamp(0.64rem, 2.9vw, 0.74rem);
+}
+
+.public-app-panel[data-step="2"] .slot-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(5px, 1dvh, 8px);
+}
+
+.public-app-panel[data-step="2"] .slot-button {
+  min-height: clamp(28px, 5.1dvh, 36px);
+  padding: 5px 4px;
+}
+
+.public-app-panel[data-step="2"] .slot-button strong {
+  font-size: clamp(0.66rem, 3.2vw, 0.78rem);
+}
+
+.public-app-panel[data-step="4"] .app-step-screen {
+  gap: clamp(7px, 1.25dvh, 12px);
+}
+
+@media (min-width: 680px) {
+  .public-shell {
+    --app-outer-pad: clamp(18px, 3vw, 28px);
+  }
+
+  .booking-surface {
+    width: clamp(340px, 30vw, 390px);
+  }
+}
+
+@media (max-height: 760px) {
+  .public-shell {
+    --app-outer-pad: clamp(5px, 1.8vw, 10px);
+  }
+
+  .app-business-header {
+    gap: 7px;
+    padding-block: 8px 9px;
+  }
+
+  .app-status-bar {
+    min-height: 12px;
+    font-size: 0.62rem;
+  }
+
+  .app-business-header p {
+    line-height: 1.1;
+  }
+
+  .booking-step {
+    min-height: 42px;
+  }
+
+  .app-step-actions {
+    padding-block: 7px 9px;
+  }
+
+  .public-app-panel[data-step="2"] .slot-calendar-day {
+    min-height: 23px;
+  }
+
+  .public-app-panel[data-step="2"] .slot-button {
+    min-height: 29px;
+  }
+}
+
+@media (max-height: 660px) {
+  .app-business-header {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 7px 12px 8px;
+  }
+
+  .app-status-bar {
+    min-height: 10px;
+  }
+
+  .app-business-lockup {
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  .app-logo-frame {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+  }
+
+  .app-business-header h1 {
+    font-size: 0.88rem;
+  }
+
+  .app-business-header p {
+    font-size: 0.54rem;
+  }
+
+  .app-booking-meta span {
+    padding: 4px 6px;
+  }
+
+  .booking-step {
+    min-height: 38px;
+    padding-block: 5px;
+  }
+
+  .booking-step span {
+    width: 15px;
+    height: 15px;
+  }
+
+  .booking-step small {
+    font-size: 0.46rem;
+  }
+
+  .app-step-screen {
+    padding-block: 7px 6px;
+  }
+
+  .public-app-panel[data-step="2"] .slot-calendar-card {
+    padding: 6px;
+  }
+
+  .public-app-panel[data-step="2"] .slot-calendar-day {
+    min-height: 20px;
+  }
+
+  .public-app-panel[data-step="2"] .slot-button {
+    min-height: 27px;
+  }
+
+  .summary-row {
+    padding-bottom: 5px;
+  }
+}
+
+@media (max-width: 350px) {
+  .booking-surface {
+    width: calc(100vw - (var(--app-outer-pad) * 2));
+  }
+
+  .app-booking-meta span:first-child {
+    max-width: 42%;
+  }
+
+  .public-app-panel[data-step="2"] .slot-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 * {
   box-sizing: border-box;
 }
