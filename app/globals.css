@@ -3382,43 +3382,42 @@ a {
 
 /* Final public app booking layout. Keep this block last for this surface. */
 .public-shell {
-  --app-outer-pad-x: clamp(8px, 3.2vw, 18px);
-  --app-outer-pad-y: clamp(8px, 1.8dvh, 18px);
-  --app-radius: clamp(16px, 4.8vw, 20px);
+  --app-outer-pad-x: 0px;
+  --app-outer-pad-y: 0px;
+  --app-radius: 0px;
   display: grid;
   width: 100%;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
   min-height: 100vh;
   min-height: 100svh;
   min-height: 100dvh;
-  place-items: center;
-  padding:
-    max(var(--app-outer-pad-y), env(safe-area-inset-top))
-    max(var(--app-outer-pad-x), env(safe-area-inset-right))
-    max(var(--app-outer-pad-y), env(safe-area-inset-bottom))
-    max(var(--app-outer-pad-x), env(safe-area-inset-left));
-  background: #20201f;
+  place-items: stretch;
+  padding: 0;
+  background: #fff8f4;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .booking-surface {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto minmax(0, 1fr);
-  width: clamp(300px, calc(100vw - (var(--app-outer-pad-x) * 2)), 390px);
-  max-width: calc(100vw - (var(--app-outer-pad-x) * 2));
-  height: auto;
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
   min-height: 0;
-  max-height: calc(100vh - (var(--app-outer-pad-y) * 2));
-  max-height: calc(100svh - (var(--app-outer-pad-y) * 2));
-  max-height: calc(100dvh - (var(--app-outer-pad-y) * 2));
+  max-height: none;
   align-items: stretch;
-  margin: 0 auto;
+  margin: 0;
   overflow: hidden;
-  border: 1px solid rgba(255, 214, 219, 0.5);
+  border: 0;
   border-radius: var(--app-radius);
   background: #fff8f4;
-  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 
 .app-business-header {
@@ -3493,7 +3492,7 @@ a {
 
 .public-app-panel {
   display: grid;
-  grid-template-rows: auto minmax(0, auto) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 0;
   min-height: 0;
   padding: 0;
@@ -3610,14 +3609,11 @@ a {
 .app-step-actions {
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   gap: clamp(6px, 2.4vw, 8px);
-  padding: clamp(7px, 1.35dvh, 10px) clamp(12px, 3.8vw, 16px) clamp(10px, 1.8dvh, 18px);
+  padding:
+    clamp(7px, 1.35dvh, 10px)
+    clamp(12px, 3.8vw, 16px)
+    max(clamp(10px, 1.8dvh, 18px), env(safe-area-inset-bottom));
   background: #fff8f4;
-}
-
-.public-app-panel[data-step="0"] .app-step-actions,
-.public-app-panel[data-step="1"] .app-step-actions,
-.public-app-panel[data-step="3"] .app-step-actions {
-  padding-top: clamp(10px, 2.2dvh, 16px);
 }
 
 .secondary-button,
@@ -3628,16 +3624,6 @@ a {
 
 .public-app-panel[data-step="2"] .app-step-screen {
   gap: clamp(6px, 1dvh, 10px);
-}
-
-.booking-surface:has(.public-app-panel[data-step="2"]),
-.booking-surface:has(.public-app-panel[data-step="4"]) {
-  width: clamp(300px, calc(100vw - (var(--app-outer-pad-x) * 2)), 390px);
-}
-
-.booking-surface:has(.public-app-panel[data-step="2"]) .public-app-panel,
-.booking-surface:has(.public-app-panel[data-step="4"]) .public-app-panel {
-  grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
 .public-app-panel[data-step="2"] .slot-days,
@@ -3705,13 +3691,23 @@ a {
 
 @media (min-width: 680px) {
   .public-shell {
-    --app-outer-pad-x: clamp(18px, 3vw, 28px);
-    --app-outer-pad-y: clamp(18px, 3vh, 28px);
+    --app-outer-pad-x: clamp(16px, 3vw, 28px);
+    --app-outer-pad-y: clamp(16px, 3vh, 28px);
+    --app-radius: 20px;
     place-items: center;
+    padding: var(--app-outer-pad-y) var(--app-outer-pad-x);
+    background: #fff8f4;
   }
 
   .booking-surface {
-    width: clamp(340px, 30vw, 390px);
+    width: clamp(390px, 38vw, 460px);
+    max-width: calc(100vw - (var(--app-outer-pad-x) * 2));
+    height: calc(100vh - (var(--app-outer-pad-y) * 2));
+    height: calc(100svh - (var(--app-outer-pad-y) * 2));
+    height: calc(100dvh - (var(--app-outer-pad-y) * 2));
+    border: 1px solid rgba(255, 214, 219, 0.45);
+    border-radius: var(--app-radius);
+    box-shadow: 0 18px 52px rgba(0, 0, 0, 0.18);
   }
 
   .app-business-header h1 {
@@ -3721,7 +3717,7 @@ a {
 
 @media (max-height: 760px) {
   .public-shell {
-    --app-outer-pad-y: clamp(6px, 1.2dvh, 10px);
+    --app-outer-pad-y: 0px;
   }
 
   .app-business-header {
@@ -3812,7 +3808,7 @@ a {
 
 @media (max-width: 350px) {
   .booking-surface {
-    width: calc(100vw - (var(--app-outer-pad-x) * 2));
+    width: 100vw;
   }
 
   .app-step-screen .slot-grid {

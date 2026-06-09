@@ -40,14 +40,12 @@ test.describe("pre-pilot visual smoke", () => {
       await page.goto("/achul-nails");
       await expect(page.getByRole("heading", { name: /Achul_Nails/i }).first()).toBeVisible();
       await expect(page.locator(".booking-surface")).not.toContainText("9:41");
+      await expectNoDarkOuterBackground(page);
 
       for (const step of [0, 1, 2, 3, 4]) {
         await page.locator(".booking-step").nth(step).click();
         await expect(page.locator(".app-step-actions")).toBeVisible();
-        await expectBookingSurfaceFitsViewport(page, viewport.height);
-        if ([0, 1, 3].includes(step)) {
-          await expectCompactBookingSurface(page, viewport.height);
-        }
+        await expectBookingSurfaceFillsMobileViewport(page, viewport);
         await expectNoHorizontalOverflow(page);
       }
 
@@ -68,15 +66,16 @@ test.describe("pre-pilot visual smoke", () => {
   });
 });
 
-async function expectBookingSurfaceFitsViewport(page: Page, viewportHeight: number) {
+async function expectBookingSurfaceFillsMobileViewport(page: Page, viewport: { width: number; height: number }) {
   const box = await page.locator(".booking-surface").boundingBox();
   expect(box, "booking surface should be rendered").toBeTruthy();
-  expect(box!.y).toBeGreaterThanOrEqual(-1);
-  expect(box!.y + box!.height).toBeLessThanOrEqual(viewportHeight + 1);
+  expect(Math.round(box!.x)).toBe(0);
+  expect(Math.round(box!.y)).toBe(0);
+  expect(Math.round(box!.width)).toBe(viewport.width);
+  expect(Math.round(box!.height)).toBe(viewport.height);
 }
 
-async function expectCompactBookingSurface(page: Page, viewportHeight: number) {
-  const box = await page.locator(".booking-surface").boundingBox();
-  expect(box, "booking surface should be rendered").toBeTruthy();
-  expect(box!.height).toBeLessThanOrEqual(viewportHeight - 56);
+async function expectNoDarkOuterBackground(page: Page) {
+  const shellBackground = await page.locator(".public-shell").evaluate((element) => getComputedStyle(element).backgroundColor);
+  expect(shellBackground).not.toBe("rgb(32, 32, 31)");
 }
