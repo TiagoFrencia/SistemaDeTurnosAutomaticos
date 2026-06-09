@@ -11,11 +11,6 @@ type Props = {
 export function BusinessHeader({ business, depositAmount, durationMinutes }: Props) {
   return (
     <header className="business-header app-business-header">
-      <div className="app-status-bar" aria-hidden="true">
-        <span>9:41</span>
-        <span className="app-menu-dots">•••</span>
-      </div>
-
       <div className="app-business-lockup">
         <span className="business-logo-frame app-logo-frame">
           {business.branding.logoUrl ? (

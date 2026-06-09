@@ -55,23 +55,6 @@
   color: #fff8f4;
 }
 
-.app-status-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 16px;
-  color: #fff8f4;
-  font-size: 0.68rem;
-  font-weight: 800;
-}
-
-.app-menu-dots {
-  color: rgba(255, 248, 244, 0.82);
-  font-size: 1rem;
-  letter-spacing: 0;
-  line-height: 1;
-}
-
 .app-business-lockup {
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr);
@@ -647,10 +630,6 @@
   padding: clamp(9px, 1.7dvh, 12px) clamp(12px, 3.6vw, 16px) clamp(10px, 2dvh, 16px);
 }
 
-.app-status-bar {
-  min-height: clamp(13px, 1.8dvh, 16px);
-}
-
 .app-business-lockup {
   grid-template-columns: clamp(24px, 7vw, 30px) minmax(0, 1fr);
   gap: clamp(7px, 2.4vw, 10px);
@@ -885,11 +864,6 @@
     padding-block: 8px 9px;
   }
 
-  .app-status-bar {
-    min-height: 12px;
-    font-size: 0.62rem;
-  }
-
   .app-business-header p {
     line-height: 1.1;
   }
@@ -916,10 +890,6 @@
     grid-template-columns: 1fr;
     gap: 6px;
     padding: 7px 12px 8px;
-  }
-
-  .app-status-bar {
-    min-height: 10px;
   }
 
   .app-business-lockup {
@@ -3414,12 +3384,9 @@ a {
 .public-shell {
   --app-outer-pad-x: clamp(8px, 3.2vw, 18px);
   --app-outer-pad-y: clamp(8px, 1.8dvh, 18px);
-  --app-radius: clamp(20px, 5.8vw, 28px);
+  --app-radius: clamp(16px, 4.8vw, 20px);
   display: grid;
   width: 100%;
-  height: 100vh;
-  height: 100svh;
-  height: 100dvh;
   min-height: 100vh;
   min-height: 100svh;
   min-height: 100dvh;
@@ -3430,48 +3397,45 @@ a {
     max(var(--app-outer-pad-y), env(safe-area-inset-bottom))
     max(var(--app-outer-pad-x), env(safe-area-inset-left));
   background: #20201f;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .booking-surface {
   display: grid;
+  grid-template-columns: 1fr;
   grid-template-rows: auto minmax(0, 1fr);
   width: clamp(300px, calc(100vw - (var(--app-outer-pad-x) * 2)), 390px);
   max-width: calc(100vw - (var(--app-outer-pad-x) * 2));
-  height: calc(100vh - (var(--app-outer-pad-y) * 2));
-  height: calc(100svh - (var(--app-outer-pad-y) * 2));
-  height: calc(100dvh - (var(--app-outer-pad-y) * 2));
+  height: auto;
   min-height: 0;
+  max-height: calc(100vh - (var(--app-outer-pad-y) * 2));
+  max-height: calc(100svh - (var(--app-outer-pad-y) * 2));
   max-height: calc(100dvh - (var(--app-outer-pad-y) * 2));
   align-items: stretch;
   margin: 0 auto;
   overflow: hidden;
-  border: 1px solid rgba(255, 214, 219, 0.9);
+  border: 1px solid rgba(255, 214, 219, 0.5);
   border-radius: var(--app-radius);
   background: #fff8f4;
-  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.34);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.3);
 }
 
 .app-business-header {
   position: static;
   top: auto;
   display: grid;
-  gap: clamp(8px, 1.45dvh, 12px);
-  padding: clamp(9px, 1.55dvh, 12px) clamp(12px, 3.8vw, 16px) clamp(10px, 1.9dvh, 16px);
+  gap: clamp(8px, 1.3dvh, 11px);
+  padding: clamp(11px, 1.8dvh, 14px) clamp(12px, 3.8vw, 16px) clamp(10px, 1.7dvh, 13px);
   background: #3e1724;
   color: #fff8f4;
-}
-
-.app-status-bar {
-  min-height: clamp(12px, 1.7dvh, 16px);
-  font-size: clamp(0.6rem, 2.75vw, 0.68rem);
 }
 
 .app-business-header h1 {
   max-width: none;
   color: #fff;
   font-family: inherit;
-  font-size: clamp(0.94rem, 4.35vw, 1.08rem);
+  font-size: clamp(0.98rem, 4.45vw, 1.14rem);
   font-weight: 900;
   line-height: 1.05;
   overflow-wrap: anywhere;
@@ -3487,7 +3451,7 @@ a {
 
 .app-business-lockup {
   display: grid;
-  grid-template-columns: clamp(24px, 7.2vw, 30px) minmax(0, 1fr);
+  grid-template-columns: clamp(26px, 7.6vw, 32px) minmax(0, 1fr);
   align-items: center;
   justify-items: stretch;
   gap: clamp(7px, 2.4vw, 10px);
@@ -3496,8 +3460,8 @@ a {
 .app-logo-frame {
   display: grid;
   place-items: center;
-  width: clamp(24px, 7.2vw, 30px);
-  height: clamp(24px, 7.2vw, 30px);
+  width: clamp(26px, 7.6vw, 32px);
+  height: clamp(26px, 7.6vw, 32px);
   padding: 0;
   border: 0;
   border-radius: 9px;
@@ -3529,7 +3493,7 @@ a {
 
 .public-app-panel {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, auto) auto;
   gap: 0;
   min-height: 0;
   padding: 0;
@@ -3583,6 +3547,10 @@ a {
 .app-service-card {
   min-height: clamp(50px, 7.5dvh, 64px);
   padding: clamp(9px, 1.7dvh, 12px) 38px clamp(9px, 1.7dvh, 12px) clamp(10px, 3.2vw, 14px);
+}
+
+.app-service-card[data-selected="true"] small {
+  color: #ffe8df;
 }
 
 .app-customer-grid {
@@ -3646,6 +3614,12 @@ a {
   background: #fff8f4;
 }
 
+.public-app-panel[data-step="0"] .app-step-actions,
+.public-app-panel[data-step="1"] .app-step-actions,
+.public-app-panel[data-step="3"] .app-step-actions {
+  padding-top: clamp(10px, 2.2dvh, 16px);
+}
+
 .secondary-button,
 .public-app-panel .primary-button {
   min-height: clamp(34px, 5.3dvh, 40px);
@@ -3654,6 +3628,16 @@ a {
 
 .public-app-panel[data-step="2"] .app-step-screen {
   gap: clamp(6px, 1dvh, 10px);
+}
+
+.booking-surface:has(.public-app-panel[data-step="2"]),
+.booking-surface:has(.public-app-panel[data-step="4"]) {
+  width: clamp(300px, calc(100vw - (var(--app-outer-pad-x) * 2)), 390px);
+}
+
+.booking-surface:has(.public-app-panel[data-step="2"]) .public-app-panel,
+.booking-surface:has(.public-app-panel[data-step="4"]) .public-app-panel {
+  grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
 .public-app-panel[data-step="2"] .slot-days,
@@ -3745,11 +3729,6 @@ a {
     padding-block: 8px 9px;
   }
 
-  .app-status-bar {
-    min-height: 12px;
-    font-size: 0.62rem;
-  }
-
   .booking-step {
     min-height: 42px;
   }
@@ -3773,23 +3752,19 @@ a {
     padding: 7px 12px 8px;
   }
 
-  .app-status-bar {
-    min-height: 10px;
-  }
-
   .app-business-lockup {
-    grid-template-columns: 22px minmax(0, 1fr);
+    grid-template-columns: 24px minmax(0, 1fr);
     gap: 7px;
   }
 
   .app-logo-frame {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     border-radius: 7px;
   }
 
   .app-business-header h1 {
-    font-size: 0.88rem;
+    font-size: 0.95rem;
   }
 
   .app-business-header p {

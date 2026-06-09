@@ -20,7 +20,7 @@ test.describe("pre-pilot visual smoke", () => {
   test("renders public booking without overflow", async ({ page }, testInfo) => {
     for (const target of publicPages) {
       await page.goto(target.path);
-      await expect(page.getByRole("heading", { name: target.title }).first()).toBeVisible();
+      await expect(page.locator(".booking-surface").getByRole("heading", { name: target.title })).toBeVisible();
       await expectNoHorizontalOverflow(page);
       await attachScreenshot(page, testInfo, `${testInfo.project.name}-${target.path.replaceAll("/", "-")}`);
     }
@@ -39,11 +39,15 @@ test.describe("pre-pilot visual smoke", () => {
       await page.setViewportSize(viewport);
       await page.goto("/achul-nails");
       await expect(page.getByRole("heading", { name: /Achul_Nails/i }).first()).toBeVisible();
+      await expect(page.locator(".booking-surface")).not.toContainText("9:41");
 
       for (const step of [0, 1, 2, 3, 4]) {
         await page.locator(".booking-step").nth(step).click();
         await expect(page.locator(".app-step-actions")).toBeVisible();
-        await expectBookingSurfaceUsesViewport(page, viewport.height);
+        await expectBookingSurfaceFitsViewport(page, viewport.height);
+        if ([0, 1, 3].includes(step)) {
+          await expectCompactBookingSurface(page, viewport.height);
+        }
         await expectNoHorizontalOverflow(page);
       }
 
@@ -64,10 +68,15 @@ test.describe("pre-pilot visual smoke", () => {
   });
 });
 
-async function expectBookingSurfaceUsesViewport(page: Page, viewportHeight: number) {
+async function expectBookingSurfaceFitsViewport(page: Page, viewportHeight: number) {
   const box = await page.locator(".booking-surface").boundingBox();
   expect(box, "booking surface should be rendered").toBeTruthy();
   expect(box!.y).toBeGreaterThanOrEqual(-1);
   expect(box!.y + box!.height).toBeLessThanOrEqual(viewportHeight + 1);
-  expect(box!.height).toBeGreaterThanOrEqual(viewportHeight - 36);
+}
+
+async function expectCompactBookingSurface(page: Page, viewportHeight: number) {
+  const box = await page.locator(".booking-surface").boundingBox();
+  expect(box, "booking surface should be rendered").toBeTruthy();
+  expect(box!.height).toBeLessThanOrEqual(viewportHeight - 56);
 }
