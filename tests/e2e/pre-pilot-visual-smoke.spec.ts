@@ -43,7 +43,7 @@ test.describe("pre-pilot visual smoke", () => {
       for (const step of [0, 1, 2, 3, 4]) {
         await page.locator(".booking-step").nth(step).click();
         await expect(page.locator(".app-step-actions")).toBeVisible();
-        await expectBookingSurfaceInsideViewport(page, viewport.height);
+        await expectBookingSurfaceUsesViewport(page, viewport.height);
         await expectNoHorizontalOverflow(page);
       }
 
@@ -64,9 +64,10 @@ test.describe("pre-pilot visual smoke", () => {
   });
 });
 
-async function expectBookingSurfaceInsideViewport(page: Page, viewportHeight: number) {
+async function expectBookingSurfaceUsesViewport(page: Page, viewportHeight: number) {
   const box = await page.locator(".booking-surface").boundingBox();
   expect(box, "booking surface should be rendered").toBeTruthy();
   expect(box!.y).toBeGreaterThanOrEqual(-1);
   expect(box!.y + box!.height).toBeLessThanOrEqual(viewportHeight + 1);
+  expect(box!.height).toBeGreaterThanOrEqual(viewportHeight - 36);
 }
